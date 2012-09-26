@@ -69,17 +69,29 @@ public class ImageGenerator {
 		// Set a color for each pixel. Y pixel indices are flipped so that the
 		// origin (0,0)
 		// is at the bottom left of the image.
+		
+		int steps = 20; 
+		int total = width * height; 
+		int update = total / steps; 
+		int pixel = 0;
+		int percent = 0; 
+		
 		for (int i = 0; i < width; i++)
-			for (int j = 0; j < height; j++) {
-				if(i == 605 && j == 224)
-				{
-					System.out.println();
-				}
+			for (int j = 0; j < height; j++) {				
 				image.setRGB(i, j,
 						painter.pixelColorAt(i, height - j - 1, width, height)
 								.toAwtColor());
+				
+				if(pixel == update) {
+					pixel = 0; 
+					percent += 100 / steps;
+					System.out.printf("%d%% ", percent);
+				}
+				pixel++; 
 			}
 
+		System.out.println(); 
+		
 		// Write the image to disk.
 		try {
 			File file = new File(filename);
